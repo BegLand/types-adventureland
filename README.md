@@ -1,9 +1,9 @@
-# @types/adventure-land
+# @begland/types-adventureland
 Types for adventure land
 
 ## Install
 
-1. run `npm install @types/types-adventureland`
+1. run `npm install @begland/types-adventureland`
 
 ## Development and Build
 1. run `npm run build`
