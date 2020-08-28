@@ -46,8 +46,17 @@ export interface TargetPriorityInfo {
     holdPositionFarm?: boolean;
 
     farmingPosition?: PositionReal;
+    /** Mostly used for class specific targeting, but ignores the monster if set to true and does not visit it */
+    ignore?: boolean
     /* A list of ideal items to equip to bettter deal with these monsters */
     equip?: ItemName[];
+    priest?: Partial<TargetPriorityInfo>
+    warrior?: Partial<TargetPriorityInfo>
+    rogue?: Partial<TargetPriorityInfo>
+    paladin?: Partial<TargetPriorityInfo>
+    ranger?: Partial<TargetPriorityInfo>
+    mage?: Partial<TargetPriorityInfo>
+    merchant?: Partial<TargetPriorityInfo>
 }
 
 export type MovementTarget = {
@@ -117,3 +126,10 @@ export type InventoryItemInfo = ItemInfo & {
 export type BankItemInfo = InventoryItemInfo & {
     pack: BankPackType | "items";
 }
+export type BankItems = {
+    [pack in BankPackType]: ItemInfo[];
+};
+export type EnhancedItem = BankItemInfo & {
+    index: number
+}
+export type EnhancedItemList = EnhancedItem[]

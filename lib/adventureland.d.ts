@@ -82,7 +82,8 @@ declare global {
      * @param callback The function that gets called when the event triggers
      */
     on(event: string, callback?: (data: any) => void): void
-  }
+    all(callback?: (name: any, data: any) => void): void
+  } & CharacterEntity
 
   const game: {
     // TODO: Get a list of events
@@ -92,6 +93,7 @@ declare global {
      * @param callback The function that gets called when the event triggers
      */
     on(event: string, callback?: (data: any) => void): void
+    all(callback?: (name: any, data: any) => void): void
   }
 
   /**
@@ -138,7 +140,7 @@ declare global {
    * @param pack The bank pack that you want to deposit the item in to
    * @param packPosition The position of the item in the bank pack you want to deposit the item in to
    */
-  function bank_store(inventoryPosition: number, pack?: BankPackType, packPosition?: number): void
+  function bank_store(inventoryPosition: number, pack?: BankPackType, packPosition?: number): Promise<void>
   /**
    * Withdraws the given amount of gold from the bank. You must be in the bank to actually withdraw gold.
    * @param amount The amount of gold to withdraw
@@ -287,10 +289,12 @@ declare global {
   function equip(inventoryPostion: number, slot?: SlotType)
   function exchange(inventoryPosition: number)
   function game_log(message: string, color?: string)
+  function get(key: string): unknown
   function get_targeted_monster(): Entity
   function heal(target: Entity)
   /** Checks whether or not we can attack other players */
   function is_pvp(): boolean
+  function is_in_range(entity: Entity): boolean
   function is_transporting(entity: Entity): boolean
   /** 0 = normal, 1 = high, 2 = rare */
   function item_grade(item: ItemInfo): -1 | 0 | 1 | 2
@@ -307,6 +311,7 @@ declare global {
    * @param y 
    */
   function move(x: number, y: number): Promise<void>
+  function mssince(date: Date): number
   function reduce_cooldown(skill: SkillName, ms: number): void
   function respawn()
   /** Quantity defaults to 1 if not set */
@@ -318,6 +323,7 @@ declare global {
   /** If isRequest is set to true, it will send a party request */
   function send_party_invite(name: string, isRequest?: boolean)
   function send_party_request(name: string)
+  function set(key: string, value: unknown): unknown
   function set_message(text: string, color?: string)
   function simple_distance(from: IPosition | PositionReal, to: IPosition | PositionReal): number
   function smart_move(destination: IPosition | MapName | MonsterName, callback?: () => void)
@@ -706,7 +712,7 @@ export type StatusInfo = {
       intensity: number
       // The character ID that caused the burn
       f: string
-    }
+    };
     coop?: {
       id: string;
       p: number;
@@ -1010,6 +1016,7 @@ export type BankPackType =
   | "items7"
   | "items8"
   | "items9"
+  | "character"
 
 export type SlotType =
   | "amulet"
@@ -1063,6 +1070,7 @@ export type ConditionName =
   | "frozen"
   | "fullguard"
   | "hardshell"
+  | "healed"
   | "holidayspirit"
   | "invincible"
   | "licenced"
@@ -1271,6 +1279,7 @@ export type ItemName =
   | "harmor"
   | "hboots"
   | "hbow"
+  | "heartwood"
   | "helmet"
   | "helmet1"
   | "hgloves"
