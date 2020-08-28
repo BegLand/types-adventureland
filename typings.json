@@ -1,0 +1,10 @@
+{
+    "name": "adventureland",
+    "main": "index.d.ts",
+    "version": "0.0.1",
+    "homepage": "https://github.com/types/npm-express",
+    "dependencies": {},
+    "globalDependencies": {
+        "node": "registry:env/node#6.0.0+20170115054122"
+    }
+}
